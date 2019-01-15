@@ -119,6 +119,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             hashMap.put("First Name", firstName);
             hashMap.put("Last Name", lastName);
             hashMap.put("User Id", firebaseAuth.getCurrentUser().getUid());
+            hashMap.put("Account Type", make);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
