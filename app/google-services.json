@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "870450852120",
+    "firebase_url": "https://the-brooker.firebaseio.com",
+    "project_id": "the-brooker",
+    "storage_bucket": "the-brooker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870450852120:android:cc86b9bdab7189c9",
+        "android_client_info": {
+          "package_name": "forum.student.thebrooker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870450852120-3m1rau17m81km0i5bh9olclac805ir8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDno3kghAFFy7ar_ROzH3MS50O3h4PPsbY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

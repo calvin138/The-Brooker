@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">The Brooker</string>
+    <string-array name= "account_Type">
+        <item>Buyer</item>
+        <item>Seller</item>
+    </string-array>
+</resources>
