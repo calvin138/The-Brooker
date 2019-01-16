@@ -113,16 +113,33 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void sendUserData(){
 
+        if(make == accountType[0]) {
+
             HashMap hashMap = new HashMap();
 
-            hashMap.put("Email", email );
-            hashMap.put("First Name", firstName);
-            hashMap.put("Last Name", lastName);
-            hashMap.put("User Id", firebaseAuth.getCurrentUser().getUid());
-            hashMap.put("Account Type", make);
+            hashMap.put("Email", email);
+            hashMap.put("FirstName", firstName);
+            hashMap.put("LastName", lastName);
+            hashMap.put("UserId", firebaseAuth.getCurrentUser().getUid());
+            hashMap.put("AccountType", make.toString());
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
-        myref.setValue(hashMap);
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference myref = firebaseDatabase.getReference().child("BuyerAccount").child(firebaseAuth.getCurrentUser().getUid());
+            myref.setValue(hashMap);
+        }
+        else if(make == accountType[1]){
+
+            HashMap hashMap = new HashMap();
+
+            hashMap.put("Email", email);
+            hashMap.put("FirstName", firstName);
+            hashMap.put("LastName", lastName);
+            hashMap.put("UserId", firebaseAuth.getCurrentUser().getUid());
+            hashMap.put("AccountType", make.toString());
+
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference myref = firebaseDatabase.getReference().child("SellerAccount").child(firebaseAuth.getCurrentUser().getUid());
+            myref.setValue(hashMap);
+        }
     }
 }

@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -57,6 +62,7 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     public void validate(String email, String password){
+
         progressDialog.setMessage("Logging in");
         progressDialog.show();
 
@@ -64,6 +70,13 @@ public class SigninActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    if(validateBuyer()) {
+                        progressDialog.dismiss();
+                        Toast.makeText(SigninActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
+                    }
+                }
+                else if(task.isSuccessful() && validateSeller()){
                     progressDialog.dismiss();
                     Toast.makeText(SigninActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SigninActivity.this, MainActivity.class));
@@ -76,4 +89,34 @@ public class SigninActivity extends AppCompatActivity {
 
 
     }
+    public Boolean validateBuyer(){
+        Boolean result = false;
+        ValueEventListener accountTypeListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                if(userProfile.AccountType.matches("Buyer")){
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                finish();
+            }
+        };
+        return result;
+    }
+
+    public Boolean validateSeller(){
+        Boolean result = false;
+        DatabaseReference myref = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("AccountType");
+        myref.toString();
+        if(myref.toString() == "Buyer") {
+             return false;
+        }else if(myref.toString() == "Seller"){
+            return true;
+        }
+        return result;
+    }
+
 }

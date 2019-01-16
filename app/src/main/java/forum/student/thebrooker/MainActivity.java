@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView signup, signin;
     private FirebaseDatabase firebaseDatabase;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         signup = (TextView)findViewById(R.id.tv_Signup);
         signin = (TextView)findViewById(R.id.tv_Signin);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
     }
 
     public void onTextClick(View view){

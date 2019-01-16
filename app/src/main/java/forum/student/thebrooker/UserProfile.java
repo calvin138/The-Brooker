@@ -4,14 +4,34 @@ public class UserProfile {
     public String Email;
     public String FirstName;
     public String Lastname;
+    public String AccountType;
+    public String UserId;
 
-    public UserProfile(String email, String firstName, String lastname) {
+    public UserProfile(String email, String firstName, String lastname, String UserId, String AccountType) {
         this.Email = email;
         this.FirstName = firstName;
         this.Lastname = lastname;
+        this.AccountType = AccountType;
+        this.UserId = UserId;
     }
 
     public UserProfile() {
+    }
+
+    public String getAccountType() {
+        return AccountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.AccountType = accountType;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        this.UserId = userId;
     }
 
     public String getEmail() {
