@@ -82,6 +82,11 @@ public class ViewBook extends AppCompatActivity {
                             viewPageIntent.putExtra("Book ID", post_key);
                             startActivity(viewPageIntent);
                         }
+                        else if(model.getType().equals("Want to buy")) {
+                            Intent viewPageIntent = new Intent(ViewBook.this, BookPostedBuyer.class);
+                            viewPageIntent.putExtra("Book ID", post_key);
+                            startActivity(viewPageIntent);
+                        }
                     }
                 });
             }

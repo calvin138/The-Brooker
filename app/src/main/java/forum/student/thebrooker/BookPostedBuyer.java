@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
-public class BookPosted extends AppCompatActivity {
+public class BookPostedBuyer extends AppCompatActivity {
 
     private String mPost_key = null;
     private DatabaseReference bookref;
@@ -29,10 +29,9 @@ public class BookPosted extends AppCompatActivity {
     private TextView viewBookDescription;
     private TextView viewBookAuthor;
     private TextView viewBookRelease;
-    private TextView viewBookPrice;
     private TextView viewBookGenre;
 
-    String title, description, author, release, price, genre, uid, image;
+    private String title, description, author, release, price, genre, uid, image;
 
 
     private FirebaseAuth firebaseAuth;
@@ -43,7 +42,7 @@ public class BookPosted extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_posted);
+        setContentView(R.layout.activity_book_posted_buyer);
 
         setupUiViews();
 
@@ -59,7 +58,6 @@ public class BookPosted extends AppCompatActivity {
                 description =(String) dataSnapshot.child("descriptions").getValue();
                 author = (String) dataSnapshot.child("bookAuthor").getValue();
                 release = (String) dataSnapshot.child("bookRelease").getValue();
-                price =(String) dataSnapshot.child("price").getValue();
                 genre =(String) dataSnapshot.child("bookGenre").getValue();
                 uid = (String) dataSnapshot.child("uid").getValue();
                 image = (String) dataSnapshot.child("image").getValue();
@@ -67,7 +65,6 @@ public class BookPosted extends AppCompatActivity {
                 viewBookTitle.setText(title);
                 viewBookAuthor.setText("Author : " + author);
                 viewBookRelease.setText("Release Date : " + release);
-                viewBookPrice.setText("$" + price);
                 viewBookGenre.setText("Genre : " + genre);
                 viewBookDescription.setText(description);
 
@@ -92,8 +89,8 @@ public class BookPosted extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bookref.child(mPost_key).removeValue();
-                Intent homeIntent = new Intent(BookPosted.this, BuyerActivity.class);
-                Toast.makeText(BookPosted.this, "Book Deleted", Toast.LENGTH_SHORT).show();
+                Intent homeIntent = new Intent(BookPostedBuyer.this, BuyerActivity.class);
+                Toast.makeText(BookPostedBuyer.this, "Book Deleted", Toast.LENGTH_SHORT).show();
                 startActivity(homeIntent);
             }
         });
@@ -101,14 +98,13 @@ public class BookPosted extends AppCompatActivity {
     }
 
     public void setupUiViews(){
-        viewBookTitle = (TextView)findViewById(R.id.tv_titlebookposted);
-        viewBookAuthor = (TextView)findViewById(R.id.authorbookposted);
-        viewBookDescription = (TextView) findViewById(R.id.tv_descriptionbookposted);
-        viewBookGenre = (TextView)findViewById(R.id.genrebookposted);
-        viewBookRelease = (TextView)findViewById(R.id.releasebookposted);
-        viewBookPrice = (TextView)findViewById(R.id.tv_bookpriceposted);
-        viewBookCover = (ImageView)findViewById(R.id.coverbookposted);
-        viewRemovePostBtn = (Button)findViewById(R.id.btn_delete);
-        addToCart = (Button)findViewById(R.id.btn_addtocart);
+        viewBookTitle = (TextView)findViewById(R.id.tv_titlebookposted1);
+        viewBookAuthor = (TextView)findViewById(R.id.authorbookposted1);
+        viewBookDescription = (TextView) findViewById(R.id.tv_descriptionbookposted1);
+        viewBookGenre = (TextView)findViewById(R.id.genrebookposted1);
+        viewBookRelease = (TextView)findViewById(R.id.releasebookposted1);
+        viewBookCover = (ImageView)findViewById(R.id.coverbookposted1);
+        viewRemovePostBtn = (Button)findViewById(R.id.btn_delete1);
+        addToCart = (Button)findViewById(R.id.btn_addtocart1);
     }
 }
