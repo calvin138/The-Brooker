@@ -124,7 +124,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             hashMap.put("AccountType", make.toString());
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference myref = firebaseDatabase.getReference().child("BuyerAccount").child(firebaseAuth.getCurrentUser().getUid());
+            DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
             myref.setValue(hashMap);
         }
         else if(make == accountType[1]){
@@ -138,7 +138,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             hashMap.put("AccountType", make.toString());
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference myref = firebaseDatabase.getReference().child("SellerAccount").child(firebaseAuth.getCurrentUser().getUid());
+            DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
             myref.setValue(hashMap);
         }
     }

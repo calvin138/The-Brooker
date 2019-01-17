@@ -1,9 +1,14 @@
 package forum.student.thebrooker;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         signin = (TextView)findViewById(R.id.tv_Signin);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
+
     }
 
     public void onTextClick(View view){

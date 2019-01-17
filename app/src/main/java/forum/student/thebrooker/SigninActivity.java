@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,8 +26,11 @@ public class SigninActivity extends AppCompatActivity {
 
     private EditText email, password;
     private Button signin;
+    private String[] accountType;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference userref;
 
     private ProgressDialog progressDialog;
 
@@ -38,6 +42,11 @@ public class SigninActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        userref = firebaseDatabase.getReference();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.account_Type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         progressDialog = new ProgressDialog(this);
@@ -69,54 +78,37 @@ public class SigninActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    if(validateBuyer()) {
-                        progressDialog.dismiss();
-                        Toast.makeText(SigninActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
-                    }
-                }
-                else if(task.isSuccessful() && validateSeller()){
-                    progressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
                     Toast.makeText(SigninActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SigninActivity.this, MainActivity.class));
-                }
-                else{
+                } else {
                     Toast.makeText(SigninActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
     }
-    public Boolean validateBuyer(){
-        Boolean result = false;
-        ValueEventListener accountTypeListener = new ValueEventListener() {
+
+
+    /*public void ValidateBuyerOrSeller(){
+        userref.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                if(userProfile.AccountType.matches("Buyer")){
 
-                }
+                    String AccountType = dataSnapshot.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("AccountType").getValue().toString();
+                    if(AccountType.toString().equals("Buyer")){
+                        startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
+                    }
+                    else if(AccountType.toString().equals("Seller")) {
+                        startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
+                    }
+
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                finish();
-            }
-        };
-        return result;
-    }
 
-    public Boolean validateSeller(){
-        Boolean result = false;
-        DatabaseReference myref = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("AccountType");
-        myref.toString();
-        if(myref.toString() == "Buyer") {
-             return false;
-        }else if(myref.toString() == "Seller"){
-            return true;
-        }
-        return result;
-    }
+            }
+        });
+    }*/
 
 }
