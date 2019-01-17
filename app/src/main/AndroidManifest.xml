@@ -22,7 +22,8 @@
         <activity android:name=".RequestBook" />
         <activity android:name=".activity_sell_book" />
         <activity android:name=".ViewBook" />
-        <activity android:name=".ClickedPage"></activity>
+        <activity android:name=".ClickedPage" />
+        <activity android:name=".BookPosted"></activity>
     </application>
 
 </manifest>

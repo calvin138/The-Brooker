@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ViewBook extends AppCompatActivity {
                 )
         {
             @Override
-            protected void populateViewHolder(PostViewHolder viewHolder, saveBookSeller model, int position)
+            protected void populateViewHolder(PostViewHolder viewHolder, final saveBookSeller model, int position)
             {
                 final String post_key = getRef(position).getKey();
 
@@ -71,11 +72,16 @@ public class ViewBook extends AppCompatActivity {
                 viewHolder.setType(model.getType());
                 viewHolder.setBookRelease(model.getBookRelease());
                 viewHolder.setPrice(model.getPrice());
+                viewHolder.setImage(model.getImage());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(ViewBook.this ,ClickedPage.class));
+                        if(model.getType().equals("Want to Sell")) {
+                            Intent viewPageIntent = new Intent(ViewBook.this, BookPosted.class);
+                            viewPageIntent.putExtra("Book ID", post_key);
+                            startActivity(viewPageIntent);
+                        }
                     }
                 });
             }
@@ -96,6 +102,10 @@ public class ViewBook extends AppCompatActivity {
             if (price == null){
                 pricess.setVisibility(View.GONE);
             }
+        }
+        public void setImage(String Image){
+            ImageView image = (ImageView)mView.findViewById(R.id.CoverAdapter);
+            Picasso.get().load(Image).into(image);
         }
 
         public void setBookTitle(String bookTitle) {
