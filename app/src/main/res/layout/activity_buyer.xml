@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BuyerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_requestBook"
+                android:layout_width="124dp"
+                android:layout_height="127dp"
+                android:text="Request to buy" />
+
+            <Button
+                android:id="@+id/btn_requestsellbook"
+                android:layout_width="124dp"
+                android:layout_height="127dp"
+                android:text="Request To sell" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_viewpost"
+                android:layout_width="124dp"
+                android:layout_height="127dp"
+                android:layout_gravity="center"
+                android:text="View all book" />
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="124dp"
+                android:layout_height="127dp"
+                android:text="Logout" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
