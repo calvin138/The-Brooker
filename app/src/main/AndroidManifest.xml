@@ -20,7 +20,9 @@
         <activity android:name=".SigninActivity" />
         <activity android:name=".BuyerActivity" />
         <activity android:name=".RequestBook" />
-        <activity android:name=".activity_sell_book"></activity>
+        <activity android:name=".activity_sell_book" />
+        <activity android:name=".ViewBook" />
+        <activity android:name=".ClickedPage"></activity>
     </application>
 
 </manifest>

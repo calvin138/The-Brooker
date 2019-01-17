@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SigninActivity.class));
                 break;
             case R.id.tv_guest:
-                //startActivity(new Intent(MainActivity.this, Guest.class));
+                startActivity(new Intent(MainActivity.this, BuyerActivity.class));
                 break;
         }
     }

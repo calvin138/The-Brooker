@@ -33,10 +33,9 @@ public class RequestBook extends AppCompatActivity {
     private String current_user_id;
     private String saveCurrentDate, saveCurrentTime;
 
-    private FirebaseDatabase firebaseDatabase;
-    private FirebaseAuth firebaseAuth;
-    private DatabaseReference bookref;
+    String title, release, author, genre, type, postdate;
 
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +43,6 @@ public class RequestBook extends AppCompatActivity {
         setupUiViews();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        bookref = firebaseDatabase.getReference().child("Books").child("BuyerRequest").child(firebaseAuth.getCurrentUser().getUid());
         current_user_id = firebaseAuth.getCurrentUser().getUid();
 
         RequestButton.setOnClickListener(new View.OnClickListener() {
@@ -58,38 +55,36 @@ public class RequestBook extends AppCompatActivity {
 
     public void sendBookDataRequest(){
 
-        Calendar calFordDate = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-        saveCurrentDate = currentDate.format(calFordDate.getTime());
+        if(Validate()) {
 
-        Calendar calFordTime = Calendar.getInstance();
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
-        saveCurrentTime = currentTime.format(calFordDate.getTime());
+            title = Booktitle.getText().toString();
+            author = BookAuthor.getText().toString();
+            genre = BookGenre.getText().toString();
+            release = date.getText().toString();
+            type = "Want to buy";
 
-        String Booktitle1, date1, BookAuthor1, BookGenre1;
-        Booktitle1 = Booktitle.getText().toString().trim();
-        BookAuthor1 = BookAuthor.getText().toString().trim();
-        BookGenre1 = BookGenre.getText().toString().trim();
-        date1 = date.getText().toString().trim();
+            Calendar calFordDate = Calendar.getInstance();
+            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+            saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+            Calendar calFordTime = Calendar.getInstance();
+            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+            saveCurrentTime = currentTime.format(calFordDate.getTime());
 
 
-                    HashMap hashMap = new HashMap();
-                    hashMap.put("BookTitle", Booktitle1);
-                    hashMap.put("ReleaseDateOfBook", date1);
-                    hashMap.put("BookAuthor", BookAuthor1);
-                    hashMap.put("BookGenre", BookGenre1);
-                    hashMap.put("RequestedUserId", current_user_id);
-                    hashMap.put("Type", "Want to buy");
+            postdate = saveCurrentDate.toString();
 
-                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                    DatabaseReference myref = firebaseDatabase.getReference().child("Books").child(current_user_id + saveCurrentDate + saveCurrentTime);
-                    myref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(RequestBook.this, "Book Requested Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RequestBook.this, BuyerActivity.class));
-                        }
-                    });
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
+            saveBook ss = new saveBook(title, author, release, genre, type, postdate);
+            myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(RequestBook.this, "Successfully Requested", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RequestBook.this, BuyerActivity.class));
+                }
+            });
+        }
     }
 
     public Boolean Validate(){
