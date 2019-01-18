@@ -105,6 +105,6 @@ public class BookPostedBuyer extends AppCompatActivity {
         viewBookRelease = (TextView)findViewById(R.id.releasebookposted1);
         viewBookCover = (ImageView)findViewById(R.id.coverbookposted1);
         viewRemovePostBtn = (Button)findViewById(R.id.btn_delete1);
-        addToCart = (Button)findViewById(R.id.btn_addtocart1);
+        addToCart = (Button)findViewById(R.id.btn_reverseBidding);
     }
 }

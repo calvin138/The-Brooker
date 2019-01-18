@@ -2,6 +2,7 @@ package forum.student.thebrooker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class ViewBook extends AppCompatActivity {
     RecyclerView recyclerView;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference bookref;
+
 
 
     @Override
@@ -50,6 +53,8 @@ public class ViewBook extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         GetData();
+
+
     }
 
     private void GetData() {
@@ -89,6 +94,7 @@ public class ViewBook extends AppCompatActivity {
                         }
                     }
                 });
+
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -100,10 +106,23 @@ public class ViewBook extends AppCompatActivity {
             super(itemView);
             mView = itemView;
         }
+        public void setCountdown(String countdown){
+            final TextView countdownss = (TextView)mView.findViewById(R.id.tv_countdown);
+            new CountDownTimer(3600000,1000){
+                public void onTick(long millisUntilFinished) {
+                    SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+                    countdownss.setText("Time Remaining : " + time.format(millisUntilFinished));
+                }
+
+                public void onFinish() {
+                    countdownss.setText("End!!!");
+                }
+            }.start();
+        }
 
         public void setPrice(String price){
             TextView pricess = (TextView)mView.findViewById(R.id.tv_price);
-            pricess.setText("$" + price);
+            pricess.setText("Current price = $" + price);
             if (price == null){
                 pricess.setVisibility(View.GONE);
             }
@@ -137,4 +156,5 @@ public class ViewBook extends AppCompatActivity {
             }*/
         }
     }
+
 }
