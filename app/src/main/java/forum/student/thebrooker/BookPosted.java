@@ -42,6 +42,7 @@ public class BookPosted extends AppCompatActivity {
     private int Amount;
     private EditText bidAmount;
     private TextView viewbidder;
+    private Button addtoWatch;
 
     String title, description, author, release, price, genre, uid, image, userFirstName, userLastName, bywho;
 
@@ -109,10 +110,24 @@ public class BookPosted extends AppCompatActivity {
                 if(firebaseAuth.getCurrentUser().getUid().equals(uid)){
                     viewRemovePostBtn.setVisibility(View.VISIBLE);
                     addToCart.setVisibility(View.GONE);
+                    addtoWatch.setVisibility(View.GONE);
+
                 }
                 else {
                     viewRemovePostBtn.setVisibility(View.GONE);
                     addToCart.setVisibility(View.VISIBLE);
+                    addtoWatch.setVisibility(View.VISIBLE);
+//                    addtoWatch.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            HashMap hashMap = new HashMap();
+//                            hashMap.put("bookid", mPost_key);
+//
+//                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//                            DatabaseReference ref = firebaseDatabase.getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WatchList");
+//                            ref.setValue(hashMap);
+//                        }
+//                    });
 
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -180,5 +195,6 @@ public class BookPosted extends AppCompatActivity {
         addToCart = (Button)findViewById(R.id.btn_forwardBidding);
         bidAmount = (EditText)findViewById(R.id.et_bidamount);
         viewbidder = (TextView)findViewById(R.id.tv_bidder);
+        addtoWatch = (Button)findViewById(R.id.watchlist);
     }
 }
