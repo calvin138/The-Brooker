@@ -149,6 +149,7 @@ public class activity_sell_book extends AppCompatActivity {
                         release = date.getText().toString();
                         price = price1.getText().toString();
                         descriptions = des.getText().toString();
+                        postdate = saveCurrentDate.toString();
                         image = downloadurl;
                         type = "Want to Sell";
                         uid = current_user_id;
@@ -195,6 +196,7 @@ public class activity_sell_book extends AppCompatActivity {
             release = date.getText().toString();
             price = price1.getText().toString();
             descriptions = des.getText().toString();
+            postdate = saveCurrentDate.toString();
             image = downloadurl;
 
             type = "Want to Sell";

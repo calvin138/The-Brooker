@@ -78,6 +78,7 @@ public class ViewBook extends AppCompatActivity {
                 viewHolder.setBookRelease(model.getBookRelease());
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setImage(model.getImage());
+                viewHolder.setPostDate(model.getPostDate());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -118,6 +119,10 @@ public class ViewBook extends AppCompatActivity {
                     countdownss.setText("End!!!");
                 }
             }.start();
+        }
+        public void setPostDate(String postDate){
+            TextView postdate = (TextView)mView.findViewById(R.id.tv_countdown);
+            postdate.setText("Posted on" + postDate);
         }
 
         public void setPrice(String price){

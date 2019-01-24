@@ -37,6 +37,7 @@ public class RequestBook extends AppCompatActivity {
     private EditText date;
     private EditText BookAuthor;
     private EditText BookGenre;
+    private EditText BookPrice;
     private Button RequestButton;
     private String current_user_id;
     private MultiAutoCompleteTextView des;
@@ -46,7 +47,7 @@ public class RequestBook extends AppCompatActivity {
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
 
-    String title, release, author, genre, type, postdate, descriptions, uid, downloadUrl, image;
+    String title, release, author, genre, type, postdate, descriptions, uid, downloadUrl, image, price;
 
 
     private ProgressDialog loadingbar;
@@ -142,6 +143,7 @@ public class RequestBook extends AppCompatActivity {
                         release = date.getText().toString();
                         type = "Want to buy";
                         descriptions = des.getText().toString();
+                        price = BookPrice.getText().toString();
                         image = downloadUrl;
 
                         Calendar calFordDate = Calendar.getInstance();
@@ -156,7 +158,7 @@ public class RequestBook extends AppCompatActivity {
 
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
-                        saveBook ss = new saveBook(title, author, release, genre, type, postdate, descriptions, uid, image);
+                        saveBook ss = new saveBook(title, author, release, genre, type, postdate, descriptions, uid, image, price);
 
                         myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -190,6 +192,7 @@ public class RequestBook extends AppCompatActivity {
             type = "Want to buy";
             descriptions = des.getText().toString();
             image = downloadUrl;
+            price = BookPrice.getText().toString();
 
             Calendar calFordDate = Calendar.getInstance();
             SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
@@ -205,7 +208,7 @@ public class RequestBook extends AppCompatActivity {
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
-            saveBook ss = new saveBook(title, author, release, genre, type, postdate, descriptions, uid, image);
+            saveBook ss = new saveBook(title, author, release, genre, type, postdate, descriptions, uid, image, price);
 
             myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -219,7 +222,7 @@ public class RequestBook extends AppCompatActivity {
 
     public Boolean Validate(){
         Boolean result = false;
-        if(!Booktitle.getText().toString().isEmpty() && !BookAuthor.getText().toString().isEmpty() && !BookGenre.getText().toString().isEmpty() && !date.getText().toString().isEmpty() ){
+        if(!Booktitle.getText().toString().isEmpty() && !BookAuthor.getText().toString().isEmpty() && !BookGenre.getText().toString().isEmpty() && !date.getText().toString().isEmpty() && !BookPrice.getText().toString().isEmpty()){
             return true;
         }
         else{
@@ -236,6 +239,7 @@ public class RequestBook extends AppCompatActivity {
         RequestButton = (Button)findViewById(R.id.btn_requestBook);
         des = (MultiAutoCompleteTextView)findViewById(R.id.mtv_descriptions);
         addCover = (ImageButton)findViewById(R.id.addcover);
+        BookPrice = (EditText) findViewById(R.id.et_requestprice);
         loadingbar = new ProgressDialog(this);
     }
 }

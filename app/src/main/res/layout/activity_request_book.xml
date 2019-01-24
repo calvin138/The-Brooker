@@ -8,7 +8,6 @@
     tools:context=".SignupActivity"
     android:orientation="vertical">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,10 +30,6 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Author :" />
 
@@ -47,10 +42,6 @@
         android:inputType="textPersonName" />
 
     <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
-
-    <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,11 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Book Descriptions"/>
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="match_parent"
@@ -81,11 +67,6 @@
         android:inputType="date" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="13dp" />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Genre :" />
@@ -97,6 +78,19 @@
         android:ems="10"
         android:hint="Enter the Genre of the book"
         android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Starting Price" />
+
+    <EditText
+        android:id="@+id/et_requestprice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter your starting price in (SGD)"
+        android:inputType="number" />
 
     <ImageButton
         android:id="@+id/addcover"

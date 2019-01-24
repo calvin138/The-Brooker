@@ -143,6 +143,68 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.982" />
 
+            <TextView
+                android:id="@+id/bookpricebuyer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/releasebookposted1"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="110dp"
+                android:layout_marginTop="8dp"
+                android:text="Enter your bid amount \n note : This is reverse bidding meaning that you will have to bid to lower the price"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bookpricebuyer"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/et_reversebid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="85dp"
+                android:layout_marginStart="84dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Enter you bid amount (min $1)"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView11"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tv_requestby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/textView11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/bookpricebuyer"
+                app:layout_constraintTop_toBottomOf="@+id/releasebookposted1" />
+
         </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

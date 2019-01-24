@@ -1,9 +1,9 @@
 package forum.student.thebrooker;
 
 public class saveBook {
-    public String bookTitle, bookAuthor, bookRelease, bookGenre, type, postDate, descriptions, uid, image;
+    public String bookTitle, bookAuthor, bookRelease, bookGenre, type, postDate, descriptions, uid, image, price;
 
-    public saveBook(String bookTitle, String bookAuthor, String bookRelease, String bookGenre, String type, String postDate, String descriptions, String uid, String image) {
+    public saveBook(String bookTitle, String bookAuthor, String bookRelease, String bookGenre, String type, String postDate, String descriptions, String uid, String image, String price) {
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookRelease = bookRelease;
@@ -13,10 +13,19 @@ public class saveBook {
         this.descriptions = descriptions;
         this.uid = uid;
         this.image = image;
+        this.price = price;
     }
 
     public saveBook() {
 
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getImage() {

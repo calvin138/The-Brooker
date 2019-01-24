@@ -104,8 +104,6 @@ public class BookPosted extends AppCompatActivity {
                     viewbidder.setText("By : " + bywho);
                 }
 
-                currentprice = viewBookPrice.toString();
-
                 Picasso.get().load(image).into(viewBookCover);
 
                 if(firebaseAuth.getCurrentUser().getUid().equals(uid)){
@@ -133,7 +131,7 @@ public class BookPosted extends AppCompatActivity {
                                     newprice = finalcurrentprice + finalValue;
 
                                     hashMap.put("price", Integer.toString(newprice));
-                                    hashMap.put("by", userFirstName + userLastName);
+                                    hashMap.put("by", userFirstName +" "+ userLastName);
 
                                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                                     DatabaseReference bidref = firebaseDatabase.getReference().child("Books").child(mPost_key);
