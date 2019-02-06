@@ -1,6 +1,5 @@
 package forum.student.thebrooker;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -17,18 +16,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class SignupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SignupActivity extends AppCompatActivity {
 
-    private Spinner spinnerMake;
-    private String make;
-    private String[] accountType;
     private Button signup;
     private EditText FirstName, LastName;
     private EditText Email;
@@ -46,11 +40,6 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         setupUiViews();
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.account_Type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMake.setAdapter(adapter);
-        spinnerMake.setOnItemSelectedListener(this);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,16 +65,8 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
     }
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        make = accountType[position];
-    }
-    public void onNothingSelected(AdapterView<?> parent) {
-        make = "No maker selected";
-    }
 
     public void setupUiViews(){
-        spinnerMake = (Spinner) findViewById(R.id.spinner_account_type);
-        accountType = getResources().getStringArray(R.array.account_Type);
         signup = (Button) findViewById(R.id.btn_signup);
         FirstName = (EditText) findViewById(R.id.et_FirstName);
         LastName = (EditText) findViewById(R.id.et_LastName);
@@ -112,34 +93,15 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void sendUserData(){
-
-        if(make == accountType[0]) {
-
             HashMap hashMap = new HashMap();
 
             hashMap.put("Email", email);
             hashMap.put("FirstName", firstName);
             hashMap.put("LastName", lastName);
             hashMap.put("UserId", firebaseAuth.getCurrentUser().getUid());
-            hashMap.put("AccountType", make.toString());
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
             myref.setValue(hashMap);
         }
-        else if(make == accountType[1]){
-
-            HashMap hashMap = new HashMap();
-
-            hashMap.put("Email", email);
-            hashMap.put("FirstName", firstName);
-            hashMap.put("LastName", lastName);
-            hashMap.put("UserId", firebaseAuth.getCurrentUser().getUid());
-            hashMap.put("AccountType", make.toString());
-
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
-            myref.setValue(hashMap);
-        }
-    }
 }

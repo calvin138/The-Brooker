@@ -19,11 +19,11 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".SigninActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".RequestBook" />
-        <activity android:name=".activity_sell_book" />
-        <activity android:name=".ViewBook" />
-        <activity android:name=".BookPostedBuyer" />
-        <activity android:name=".BookPosted" />
+        <activity android:name=".RequestBuyBook" />
+        <activity android:name=".RequestSellBook" />
+        <activity android:name=".ViewAllBook" />
+        <activity android:name=".ViewBookBuy" />
+        <activity android:name=".ViewBookSell" />
         <activity android:name=".YourBook" />
     </application>
 

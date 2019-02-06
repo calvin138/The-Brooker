@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookPosted">
+    tools:context=".ViewBookSell">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/tv_note"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="110dp"
@@ -186,7 +186,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/tv_note"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -199,7 +199,7 @@
                 android:layout_marginTop="8dp"
                 android:text="TextView"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/textView11"
+                app:layout_constraintBottom_toTopOf="@+id/tv_note"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/bookpricebuyer"

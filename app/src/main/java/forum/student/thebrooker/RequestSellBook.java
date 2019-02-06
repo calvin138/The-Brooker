@@ -24,47 +24,50 @@ import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
-public class RequestBook extends AppCompatActivity {
+public class RequestSellBook extends AppCompatActivity {
 
     private EditText Booktitle;
     private EditText date;
     private EditText BookAuthor;
     private EditText BookGenre;
-    private EditText BookPrice;
     private Button RequestButton;
     private String current_user_id;
-    private MultiAutoCompleteTextView des;
     private String saveCurrentDate, saveCurrentTime;
-    private ImageButton addCover;
+    private EditText price1;
+    private MultiAutoCompleteTextView des;
+    private ImageButton addcover;
+
+    private FirebaseDatabase firebaseDatabase;
+    private FirebaseAuth firebaseAuth;
 
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
 
-    String title, release, author, genre, type, postdate, descriptions, uid, downloadUrl, image, price;
-
+    String title, release, author, genre, type, postdate, price, descriptions, uid, image, downloadurl, bookid;
 
     private ProgressDialog loadingbar;
-
-    private FirebaseAuth firebaseAuth;
     private StorageReference bookref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_book);
+        setContentView(R.layout.activity_request_sell_book);
         setupUiViews();
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        current_user_id = firebaseAuth.getCurrentUser().getUid();
         bookref = FirebaseStorage.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        current_user_id = firebaseAuth.getCurrentUser().getUid();
 
         RequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    validatePostInfo();
+                validatePostInfo();
             }
         });
-        addCover.setOnClickListener(new View.OnClickListener() {
+        addcover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGallery();
@@ -85,7 +88,7 @@ public class RequestBook extends AppCompatActivity {
 
         if(requestcode==Gallery_Pick && resultcode==RESULT_OK && data!=null){
             ImageUri = data.getData();
-            addCover.setImageURI(ImageUri);
+            addcover.setImageURI(ImageUri);
         }
     }
 
@@ -97,7 +100,6 @@ public class RequestBook extends AppCompatActivity {
             loadingbar.show();
             loadingbar.setCanceledOnTouchOutside(true);
             sendBookDataRequestWimage();
-            loadingbar.dismiss();
         }
         else
         {
@@ -106,88 +108,82 @@ public class RequestBook extends AppCompatActivity {
             loadingbar.show();
             loadingbar.setCanceledOnTouchOutside(true);
             sendBookDataRequestWOimage();
-            loadingbar.dismiss();
         }
     }
+
     public void sendBookDataRequestWimage(){
         Calendar calFordDate = Calendar.getInstance();
-            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-            saveCurrentDate = currentDate.format(calFordDate.getTime());
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+        saveCurrentDate = currentDate.format(calFordDate.getTime());
 
-            Calendar calFordTime = Calendar.getInstance();
-            SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
-            saveCurrentTime = currentTime.format(calFordDate.getTime());
+        Calendar calFordTime = Calendar.getInstance();
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+        saveCurrentTime = currentTime.format(calFordDate.getTime());
 
-            String postrandomname = saveCurrentDate + saveCurrentTime;
+        String postrandomname = saveCurrentDate + saveCurrentTime;
 
-            final StorageReference filepath = bookref.child("Book Covers").child(ImageUri.getLastPathSegment() + postrandomname + ".jpg");
+        final StorageReference filepath = bookref.child("Book Covers").child(ImageUri.getLastPathSegment() + postrandomname + ".jpg");
 
         filepath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    downloadUrl = task.getResult().getDownloadUrl().toString();
-                    Toast.makeText(RequestBook.this, "Image uploaded successfully",Toast.LENGTH_SHORT).show();
-                    if(Validate()) {
+                if (task.isSuccessful()) {
+                    downloadurl = task.getResult().getDownloadUrl().toString();
+                    Toast.makeText(RequestSellBook.this, "Image uploaded successfully",Toast.LENGTH_SHORT).show();
+
+                    if(Validate()){
+                        Calendar calFordDate = Calendar.getInstance();
+                        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                        saveCurrentDate = currentDate.format(calFordDate.getTime());
+
+                        Calendar calFordTime = Calendar.getInstance();
+                        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
+                        saveCurrentTime = currentTime.format(calFordTime.getTime());
 
                         title = Booktitle.getText().toString();
                         author = BookAuthor.getText().toString();
                         genre = BookGenre.getText().toString();
                         release = date.getText().toString();
-                        type = "Want to buy";
+                        price = price1.getText().toString();
                         descriptions = des.getText().toString();
-                        price = BookPrice.getText().toString();
-                        image = downloadUrl;
-
-                        Calendar calFordDate = Calendar.getInstance();
-                        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-                        saveCurrentDate = currentDate.format(calFordDate.getTime());
-                        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
-                        saveCurrentTime = currentTime.format(calFordDate.getTime());
-
-
                         postdate = saveCurrentDate.toString();
+                        image = downloadurl;
+                        type = "Want to Sell";
                         uid = current_user_id;
+
+                        HashMap hashMap = new HashMap();
+                        hashMap.put("Title", title);
 
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
-                        DatabaseReference mybook = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
-                        saveBook ss = new saveBook(title, author, release, genre, type, postdate, descriptions, uid, image, price);
-                        mybook.setValue(ss);
+                        DatabaseReference myBook = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
+                        saveBookSeller ss = new saveBookSeller(title, author, release, genre, type, postdate, price, descriptions, uid, image);
+                        myBook.setValue(ss);
                         myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(RequestBook.this, "Successfully Requested", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(RequestBook.this, HomeActivity.class));
+                                Toast.makeText(RequestSellBook.this, "Successfully Posted", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(RequestSellBook.this, HomeActivity.class));
+
                             }
                         });
                     }
-
 
                 }
                 else
                 {
                     String message = task.getException().getMessage();
-                    Toast.makeText(RequestBook.this,"Error" + message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RequestSellBook.this,"Error" + message, Toast.LENGTH_SHORT).show();
                 }
+
+                loadingbar.dismiss();
             }
         });
-
     }
 
     public void sendBookDataRequestWOimage(){
 
         if(Validate()) {
-
-            title = Booktitle.getText().toString();
-            author = BookAuthor.getText().toString();
-            genre = BookGenre.getText().toString();
-            release = date.getText().toString();
-            type = "Want to buy";
-            descriptions = des.getText().toString();
-            image = downloadUrl;
-            price = BookPrice.getText().toString();
 
             Calendar calFordDate = Calendar.getInstance();
             SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
@@ -195,34 +191,44 @@ public class RequestBook extends AppCompatActivity {
 
             Calendar calFordTime = Calendar.getInstance();
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
-            saveCurrentTime = currentTime.format(calFordDate.getTime());
+            saveCurrentTime = currentTime.format(calFordTime.getTime());
 
-
+            title = Booktitle.getText().toString();
+            author = BookAuthor.getText().toString();
+            genre = BookGenre.getText().toString();
+            release = date.getText().toString();
+            price = price1.getText().toString();
+            descriptions = des.getText().toString();
             postdate = saveCurrentDate.toString();
+            image = downloadurl;
+
+            type = "Want to Sell";
             uid = current_user_id;
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
-            DatabaseReference mybook = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
-            saveBook ss = new saveBook(title, author, release, genre, type, postdate, descriptions, uid, image, price);
-            mybook.setValue(ss);
+            DatabaseReference myBook = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
+            saveBookSeller ss = new saveBookSeller(title, author, release, genre, type, postdate, price, descriptions, uid, image);
+            myBook.setValue(ss);
             myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(RequestBook.this, "Successfully Requested", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RequestBook.this, HomeActivity.class));
+                    Toast.makeText(RequestSellBook.this, "Successfully Posted", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RequestSellBook.this, HomeActivity.class));
                 }
             });
         }
+
+        loadingbar.dismiss();
     }
 
     public Boolean Validate(){
         Boolean result = false;
-        if(!Booktitle.getText().toString().isEmpty() && !BookAuthor.getText().toString().isEmpty() && !BookGenre.getText().toString().isEmpty() && !date.getText().toString().isEmpty() && !BookPrice.getText().toString().isEmpty()){
+        if(!Booktitle.getText().toString().isEmpty() && !BookAuthor.getText().toString().isEmpty() && !BookGenre.getText().toString().isEmpty() && !date.getText().toString().isEmpty() ){
             return true;
         }
         else{
-            Toast.makeText(RequestBook.this,"Please enter all the book detail to continue", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RequestSellBook.this,"Please enter all the book detail to continue", Toast.LENGTH_SHORT).show();
         }
         return result;
     }
@@ -233,9 +239,9 @@ public class RequestBook extends AppCompatActivity {
         BookGenre = (EditText)findViewById(R.id.et_BookGenreRequest);
         date = (EditText) findViewById(R.id.et_DateOfReleaseRequest);
         RequestButton = (Button)findViewById(R.id.btn_requestBook);
-        des = (MultiAutoCompleteTextView)findViewById(R.id.mtv_descriptions);
-        addCover = (ImageButton)findViewById(R.id.addcover);
-        BookPrice = (EditText) findViewById(R.id.et_requestprice);
+        price1 = (EditText)findViewById(R.id.Price);
+        des = (MultiAutoCompleteTextView)findViewById(R.id.mtv_descriptionss);
+        addcover = (ImageButton)findViewById(R.id.addcovers);
         loadingbar = new ProgressDialog(this);
     }
 }

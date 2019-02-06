@@ -1,36 +1,23 @@
 package forum.student.thebrooker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ViewBook extends AppCompatActivity {
+public class ViewAllBook extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FirebaseDatabase firebaseDatabase;
@@ -61,7 +48,7 @@ public class ViewBook extends AppCompatActivity {
         FirebaseRecyclerAdapter<saveBookSeller, PostViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<saveBookSeller, PostViewHolder>
                 (
                         saveBookSeller.class,
-                        R.layout.activity_buyer_adapter,
+                        R.layout.activity_view_all_book_adapter,
                         PostViewHolder.class,
                         bookref
                 )
@@ -84,12 +71,12 @@ public class ViewBook extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(model.getType().equals("Want to Sell")) {
-                            Intent viewPageIntent = new Intent(ViewBook.this, BookPosted.class);
+                            Intent viewPageIntent = new Intent(ViewAllBook.this, ViewBookSell.class);
                             viewPageIntent.putExtra("Book ID", post_key);
                             startActivity(viewPageIntent);
                         }
                         else if(model.getType().equals("Want to buy")) {
-                            Intent viewPageIntent = new Intent(ViewBook.this, BookPostedBuyer.class);
+                            Intent viewPageIntent = new Intent(ViewAllBook.this, ViewBookBuy.class);
                             viewPageIntent.putExtra("Book ID", post_key);
                             startActivity(viewPageIntent);
                         }

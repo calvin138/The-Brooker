@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,9 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 
-public class BookPosted extends AppCompatActivity {
+public class ViewBookBuy extends AppCompatActivity {
 
     private String mPost_key = null;
     private DatabaseReference bookref;
@@ -30,15 +33,14 @@ public class BookPosted extends AppCompatActivity {
     private TextView viewBookDescription;
     private TextView viewBookAuthor;
     private TextView viewBookRelease;
-    private TextView viewBookPrice;
     private TextView viewBookGenre;
-    private String currentprice;
-    private int Amount;
-    private EditText bidAmount;
-    private TextView viewbidder;
-    private Button addtoWatch;
+    private TextView viewBookpricebuyer;
+    private EditText reversebidd;
+    private TextView bidby;
+    private TextView note;
 
-    String title, description, author, release, price, genre, uid, image, userFirstName, userLastName, bywho;
+    private String title, description, author, release, price, genre, uid, image, bywho;
+    private String userFirstname, userLastname, currentuser;
 
 
     private FirebaseAuth firebaseAuth;
@@ -50,22 +52,22 @@ public class BookPosted extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_posted);
+        setContentView(R.layout.activity_view_book_buy);
 
         setupUiViews();
-
 
         bookref = FirebaseDatabase.getInstance().getReference().child("Books");
         firebaseAuth = FirebaseAuth.getInstance();
         userref = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
+
 
         mPost_key = getIntent().getExtras().getString("Book ID");
 
         userref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userFirstName = (String)dataSnapshot.child("FirstName").getValue();
-                userLastName = (String)dataSnapshot.child("LastName").getValue();
+                userFirstname = (String)dataSnapshot.child("FirstName").getValue();
+                userLastname = (String)dataSnapshot.child("LastName").getValue();
             }
 
             @Override
@@ -81,22 +83,23 @@ public class BookPosted extends AppCompatActivity {
                 description =(String) dataSnapshot.child("descriptions").getValue();
                 author = (String) dataSnapshot.child("bookAuthor").getValue();
                 release = (String) dataSnapshot.child("bookRelease").getValue();
-                price =(String) dataSnapshot.child("price").getValue();
                 genre =(String) dataSnapshot.child("bookGenre").getValue();
                 uid = (String) dataSnapshot.child("uid").getValue();
                 image = (String) dataSnapshot.child("image").getValue();
+                price = (String) dataSnapshot.child("price").getValue();
                 bywho = (String) dataSnapshot.child("by").getValue();
 
                 viewBookTitle.setText(title);
                 viewBookAuthor.setText("Author : " + author);
                 viewBookRelease.setText("Release Date : " + release);
-                viewBookPrice.setText("Current price = $" + price);
                 viewBookGenre.setText("Genre : " + genre);
+                viewBookpricebuyer.setText("Current Price is = $" + price);
                 viewBookDescription.setText(description);
-                if(bywho == null){
-                    viewbidder.setVisibility(View.GONE);
-                }else {
-                    viewbidder.setText("By : " + bywho);
+                if(bywho != null){
+                    bidby.setVisibility(View.VISIBLE);
+                    bidby.setText("by : " + bywho);
+                }else if(bywho == null){
+                    bidby.setVisibility(View.GONE);
                 }
 
                 Picasso.get().load(image).into(viewBookCover);
@@ -104,6 +107,9 @@ public class BookPosted extends AppCompatActivity {
                 if(firebaseAuth.getCurrentUser().getUid().equals(uid)){
                     viewRemovePostBtn.setVisibility(View.VISIBLE);
                     addToCart.setVisibility(View.GONE);
+                    note.setVisibility(View.GONE);
+                    reversebidd.setVisibility(View.GONE);
+
                 }
                 else {
                     viewRemovePostBtn.setVisibility(View.GONE);
@@ -111,34 +117,37 @@ public class BookPosted extends AppCompatActivity {
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            if(!bidAmount.getText().toString().isEmpty()) {
-                                String Value = bidAmount.getText().toString();
-                                int finalValue = Integer.parseInt(Value);
-                                String currentprice = price.toString();
-                                int finalcurrentprice = Integer.parseInt(currentprice);
-
-                                if (finalValue > 4) {
+                            if(!reversebidd.getText().toString().isEmpty()){
+                                int finalValue  = Integer.parseInt(reversebidd.getText().toString());
+                                int currentPrice = Integer.parseInt(price.toString());
+                                if (finalValue >= 1){
                                     HashMap hashMap = new HashMap();
                                     int newprice = 0;
 
-                                    newprice = finalcurrentprice + finalValue;
+                                    newprice = currentPrice - finalValue;
 
-                                    hashMap.put("price", Integer.toString(newprice));
-                                    hashMap.put("by", userFirstName +" "+ userLastName);
+                                    if(newprice >= 0) {
 
-                                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                    DatabaseReference bidref = firebaseDatabase.getReference().child("Books").child(mPost_key);
-                                    bidref.updateChildren(hashMap);
-                                    Toast.makeText(BookPosted.this, "Successfully Bid", Toast.LENGTH_SHORT).show();
+                                        hashMap.put("price", Integer.toString(newprice));
+                                        hashMap.put("by", userFirstname + " " + userLastname);
+                                        hashMap.put("bidder UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                                    finish();
-                                    startActivity(getIntent());
-                                } else {
-                                    Toast.makeText(BookPosted.this, "Bid must be at least $5!!!", Toast.LENGTH_SHORT).show();
+                                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                        DatabaseReference ref = firebaseDatabase.getReference().child("Books").child(mPost_key);
+                                        ref.updateChildren(hashMap);
+                                        Toast.makeText(ViewBookBuy.this, "Successfully Bid", Toast.LENGTH_SHORT).show();
+
+                                        finish();
+                                        startActivity(getIntent());
+                                    } else {
+                                        Toast.makeText(ViewBookBuy.this, "Price cannot be less than $0", Toast.LENGTH_SHORT);
+                                    }
+                                }else{
+
+                                    Toast.makeText(ViewBookBuy.this, "Bid minimum value is $1", Toast.LENGTH_SHORT).show();
                                 }
                             }else {
-                                Toast.makeText(BookPosted.this, "Enter your bid amount!!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ViewBookBuy.this, "Enter your bid amount!!!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -150,12 +159,13 @@ public class BookPosted extends AppCompatActivity {
 
             }
         });
+
         viewRemovePostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bookref.child(mPost_key).removeValue();
-                Intent homeIntent = new Intent(BookPosted.this, HomeActivity.class);
-                Toast.makeText(BookPosted.this, "Book Deleted", Toast.LENGTH_SHORT).show();
+                Intent homeIntent = new Intent(ViewBookBuy.this, HomeActivity.class);
+                Toast.makeText(ViewBookBuy.this, "Book Deleted", Toast.LENGTH_SHORT).show();
                 startActivity(homeIntent);
             }
         });
@@ -163,30 +173,17 @@ public class BookPosted extends AppCompatActivity {
     }
 
     public void setupUiViews(){
-        viewBookTitle = (TextView)findViewById(R.id.tv_titlebookposted);
-        viewBookAuthor = (TextView)findViewById(R.id.authorbookposted);
-        viewBookDescription = (TextView) findViewById(R.id.tv_descriptionbookposted);
-        viewBookGenre = (TextView)findViewById(R.id.genrebookposted);
-        viewBookRelease = (TextView)findViewById(R.id.releasebookposted);
-        viewBookPrice = (TextView)findViewById(R.id.tv_bookpriceposted);
-        viewBookCover = (ImageView)findViewById(R.id.coverbookposted);
-        viewRemovePostBtn = (Button)findViewById(R.id.btn_delete);
-        addToCart = (Button)findViewById(R.id.btn_forwardBidding);
-        bidAmount = (EditText)findViewById(R.id.et_bidamount);
-        viewbidder = (TextView)findViewById(R.id.tv_bidder);
+        note = (TextView)findViewById(R.id.tv_note);
+        viewBookTitle = (TextView)findViewById(R.id.tv_titlebookposted1);
+        viewBookAuthor = (TextView)findViewById(R.id.authorbookposted1);
+        viewBookDescription = (TextView) findViewById(R.id.tv_descriptionbookposted1);
+        viewBookGenre = (TextView)findViewById(R.id.genrebookposted1);
+        viewBookRelease = (TextView)findViewById(R.id.releasebookposted1);
+        viewBookCover = (ImageView)findViewById(R.id.coverbookposted1);
+        viewRemovePostBtn = (Button)findViewById(R.id.btn_delete1);
+        addToCart = (Button)findViewById(R.id.btn_reverseBidding);
+        viewBookpricebuyer = (TextView)findViewById(R.id.bookpricebuyer);
+        reversebidd = (EditText)findViewById(R.id.et_reversebid);
+        bidby = (TextView)findViewById(R.id.tv_requestby);
     }
 }
-
-
-
-//                    addtoWatch.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            HashMap hashMap = new HashMap();
-//                            hashMap.put("bookid", mPost_key);
-//
-//                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//                            DatabaseReference ref = firebaseDatabase.getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WatchList");
-//                            ref.setValue(hashMap);
-//                        }
-//                    });
