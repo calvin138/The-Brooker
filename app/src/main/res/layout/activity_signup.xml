@@ -80,19 +80,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="  Account type" />
-
-    <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="9dp" />
-
-    <Spinner
-        android:id="@+id/spinner_account_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
