@@ -79,7 +79,7 @@ public class SigninActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
+                    startActivity(new Intent(SigninActivity.this, HomeActivity.class));
                     Toast.makeText(SigninActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(SigninActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
@@ -96,10 +96,10 @@ public class SigninActivity extends AppCompatActivity {
 
                     String AccountType = dataSnapshot.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("AccountType").getValue().toString();
                     if(AccountType.toString().equals("Buyer")){
-                        startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
+                        startActivity(new Intent(SigninActivity.this, HomeActivity.class));
                     }
                     else if(AccountType.toString().equals("Seller")) {
-                        startActivity(new Intent(SigninActivity.this, BuyerActivity.class));
+                        startActivity(new Intent(SigninActivity.this, HomeActivity.class));
                     }
 
             }

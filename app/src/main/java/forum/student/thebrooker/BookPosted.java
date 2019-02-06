@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import android.widget.AdapterView.OnItemSelectedListener;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -110,25 +104,10 @@ public class BookPosted extends AppCompatActivity {
                 if(firebaseAuth.getCurrentUser().getUid().equals(uid)){
                     viewRemovePostBtn.setVisibility(View.VISIBLE);
                     addToCart.setVisibility(View.GONE);
-                    addtoWatch.setVisibility(View.GONE);
-
                 }
                 else {
                     viewRemovePostBtn.setVisibility(View.GONE);
                     addToCart.setVisibility(View.VISIBLE);
-                    addtoWatch.setVisibility(View.VISIBLE);
-//                    addtoWatch.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            HashMap hashMap = new HashMap();
-//                            hashMap.put("bookid", mPost_key);
-//
-//                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//                            DatabaseReference ref = firebaseDatabase.getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WatchList");
-//                            ref.setValue(hashMap);
-//                        }
-//                    });
-
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -175,7 +154,7 @@ public class BookPosted extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bookref.child(mPost_key).removeValue();
-                Intent homeIntent = new Intent(BookPosted.this, BuyerActivity.class);
+                Intent homeIntent = new Intent(BookPosted.this, HomeActivity.class);
                 Toast.makeText(BookPosted.this, "Book Deleted", Toast.LENGTH_SHORT).show();
                 startActivity(homeIntent);
             }
@@ -195,6 +174,19 @@ public class BookPosted extends AppCompatActivity {
         addToCart = (Button)findViewById(R.id.btn_forwardBidding);
         bidAmount = (EditText)findViewById(R.id.et_bidamount);
         viewbidder = (TextView)findViewById(R.id.tv_bidder);
-        addtoWatch = (Button)findViewById(R.id.watchlist);
     }
 }
+
+
+
+//                    addtoWatch.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            HashMap hashMap = new HashMap();
+//                            hashMap.put("bookid", mPost_key);
+//
+//                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//                            DatabaseReference ref = firebaseDatabase.getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("WatchList");
+//                            ref.setValue(hashMap);
+//                        }
+//                    });

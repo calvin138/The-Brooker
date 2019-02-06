@@ -122,7 +122,7 @@ public class ViewBook extends AppCompatActivity {
         }
         public void setPostDate(String postDate){
             TextView postdate = (TextView)mView.findViewById(R.id.tv_countdown);
-            postdate.setText("Posted on" + postDate);
+            postdate.setText("Posted on " + postDate);
         }
 
         public void setPrice(String price){

@@ -16,11 +16,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -48,7 +45,7 @@ public class activity_sell_book extends AppCompatActivity {
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
 
-    String title, release, author, genre, type, postdate, price, descriptions, uid, image, downloadurl;
+    String title, release, author, genre, type, postdate, price, descriptions, uid, image, downloadurl, bookid;
 
     private ProgressDialog loadingbar;
     private StorageReference bookref;
@@ -154,14 +151,20 @@ public class activity_sell_book extends AppCompatActivity {
                         type = "Want to Sell";
                         uid = current_user_id;
 
+                        HashMap hashMap = new HashMap();
+                        hashMap.put("Title", title);
+
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
+                        DatabaseReference myBook = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
                         saveBookSeller ss = new saveBookSeller(title, author, release, genre, type, postdate, price, descriptions, uid, image);
+                        myBook.setValue(ss);
                         myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(activity_sell_book.this, "Successfully Posted", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(activity_sell_book.this, BuyerActivity.class));
+                                startActivity(new Intent(activity_sell_book.this, HomeActivity.class));
+
                             }
                         });
                     }
@@ -204,12 +207,14 @@ public class activity_sell_book extends AppCompatActivity {
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference myRef = firebaseDatabase.getReference().child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
+            DatabaseReference myBook = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Books").child(firebaseAuth.getCurrentUser().getUid() + saveCurrentDate + saveCurrentTime);
             saveBookSeller ss = new saveBookSeller(title, author, release, genre, type, postdate, price, descriptions, uid, image);
+            myBook.setValue(ss);
             myRef.setValue(ss).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(activity_sell_book.this, "Successfully Posted", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(activity_sell_book.this, BuyerActivity.class));
+                    startActivity(new Intent(activity_sell_book.this, HomeActivity.class));
                 }
             });
         }

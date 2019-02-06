@@ -18,13 +18,13 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".SigninActivity" />
-        <activity android:name=".BuyerActivity" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".RequestBook" />
         <activity android:name=".activity_sell_book" />
         <activity android:name=".ViewBook" />
         <activity android:name=".BookPostedBuyer" />
         <activity android:name=".BookPosted" />
-        <activity android:name=".WatchList"></activity>
+        <activity android:name=".YourBook" />
     </application>
 
 </manifest>

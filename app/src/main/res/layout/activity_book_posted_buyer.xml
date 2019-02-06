@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="110dp"
                 android:layout_marginTop="8dp"
-                android:text="Enter your bid amount \n note : This is reverse bidding meaning that you will have to bid to lower the price"
+                android:text="Enter your bid amount \n note : This is reverse bidding the current price will be reduce by your stated price !!!"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

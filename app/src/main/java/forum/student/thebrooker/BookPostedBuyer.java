@@ -18,8 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 
 public class BookPostedBuyer extends AppCompatActivity {
@@ -153,7 +151,7 @@ public class BookPostedBuyer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bookref.child(mPost_key).removeValue();
-                Intent homeIntent = new Intent(BookPostedBuyer.this, BuyerActivity.class);
+                Intent homeIntent = new Intent(BookPostedBuyer.this, HomeActivity.class);
                 Toast.makeText(BookPostedBuyer.this, "Book Deleted", Toast.LENGTH_SHORT).show();
                 startActivity(homeIntent);
             }
