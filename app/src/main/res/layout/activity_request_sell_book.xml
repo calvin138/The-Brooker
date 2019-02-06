@@ -9,6 +9,13 @@
     android:orientation="vertical">
 
 
+    <ImageButton
+        android:id="@+id/addcovers"
+        android:layout_width="71dp"
+        android:layout_height="130dp"
+        app:srcCompat="@mipmap/ic_launcher_round"
+        android:layout_gravity="center"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,12 +113,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/addcovers"
-        android:layout_width="39dp"
-        android:layout_height="46dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
