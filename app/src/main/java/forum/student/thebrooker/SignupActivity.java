@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
         lastName = LastName.getText().toString();
         phoneNumber = PhoneNum.getText().toString();
 
-        if(firstName.isEmpty() || email.isEmpty() || password.isEmpty() || lastName.isEmpty()){
+        if(firstName.isEmpty() || email.isEmpty() || password.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty()){
             Toast.makeText(this, "Please fill in all the detail", Toast.LENGTH_SHORT).show();
         }
         else{
