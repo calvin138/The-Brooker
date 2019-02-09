@@ -170,6 +170,7 @@ public class ViewBookBuy extends AppCompatActivity {
         viewRemovePostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userref.child("Books").child(mPost_key).removeValue();
                 bookref.child(mPost_key).removeValue();
                 Intent homeIntent = new Intent(ViewBookBuy.this, HomeActivity.class);
                 Toast.makeText(ViewBookBuy.this, "Book Deleted", Toast.LENGTH_SHORT).show();
