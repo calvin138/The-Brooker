@@ -42,7 +42,7 @@ public class ViewBookSell extends AppCompatActivity {
     private TextView note;
     private TextView Phone;
 
-    String title, description, author, release, price, genre, uid, image, userFirstName, userLastName, bywho, bidphone;
+    String title, description, author, release, price, genre, uid, image, userFirstName, userLastName, bywho, bidphone, userPhone;
 
 
     private FirebaseAuth firebaseAuth;
@@ -70,6 +70,7 @@ public class ViewBookSell extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userFirstName = (String)dataSnapshot.child("FirstName").getValue();
                 userLastName = (String)dataSnapshot.child("LastName").getValue();
+                userPhone = (String)dataSnapshot.child("Phone").getValue();
             }
 
             @Override
@@ -137,6 +138,7 @@ public class ViewBookSell extends AppCompatActivity {
                                     hashMap.put("price", Integer.toString(newprice));
                                     hashMap.put("by", userFirstName +" "+ userLastName);
                                     hashMap.put("bidder UID", firebaseAuth.getCurrentUser().getUid());
+                                    hashMap.put("Phone", userPhone);
 
                                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                                     DatabaseReference bidref = firebaseDatabase.getReference().child("Books").child(mPost_key);
