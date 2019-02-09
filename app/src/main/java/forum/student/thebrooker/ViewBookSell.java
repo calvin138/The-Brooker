@@ -40,8 +40,9 @@ public class ViewBookSell extends AppCompatActivity {
     private TextView viewbidder;
     private Button addtoWatch;
     private TextView note;
+    private TextView Phone;
 
-    String title, description, author, release, price, genre, uid, image, userFirstName, userLastName, bywho;
+    String title, description, author, release, price, genre, uid, image, userFirstName, userLastName, bywho, bidphone;
 
 
     private FirebaseAuth firebaseAuth;
@@ -89,7 +90,10 @@ public class ViewBookSell extends AppCompatActivity {
                 uid = (String) dataSnapshot.child("uid").getValue();
                 image = (String) dataSnapshot.child("image").getValue();
                 bywho = (String) dataSnapshot.child("by").getValue();
+                bidphone = (String)dataSnapshot.child("Phone").getValue();
 
+                Phone.setText("Bidder Phone Number : " + bidphone);
+                Phone.setVisibility(View.GONE);
                 viewBookTitle.setText(title);
                 viewBookAuthor.setText("Author : " + author);
                 viewBookRelease.setText("Release Date : " + release);
@@ -109,6 +113,7 @@ public class ViewBookSell extends AppCompatActivity {
                     addToCart.setVisibility(View.GONE);
                     bidAmount.setVisibility(View.GONE);
                     note.setVisibility(View.GONE);
+                    Phone.setVisibility(View.VISIBLE);
                 }
                 else {
                     viewRemovePostBtn.setVisibility(View.GONE);
@@ -181,6 +186,7 @@ public class ViewBookSell extends AppCompatActivity {
         bidAmount = (EditText)findViewById(R.id.et_bidamount);
         viewbidder = (TextView)findViewById(R.id.tv_bidder);
         note = (TextView)findViewById(R.id.tv_notesell);
+        Phone = (TextView)findViewById(R.id.tv_phonesell);
     }
 }
 

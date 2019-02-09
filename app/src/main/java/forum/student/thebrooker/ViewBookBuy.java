@@ -38,8 +38,9 @@ public class ViewBookBuy extends AppCompatActivity {
     private EditText reversebidd;
     private TextView bidby;
     private TextView note;
+    private TextView phone;
 
-    private String title, description, author, release, price, genre, uid, image, bywho;
+    private String title, description, author, release, price, genre, uid, image, bywho, bidphone;
     private String userFirstname, userLastname, currentuser;
 
 
@@ -88,7 +89,10 @@ public class ViewBookBuy extends AppCompatActivity {
                 image = (String) dataSnapshot.child("image").getValue();
                 price = (String) dataSnapshot.child("price").getValue();
                 bywho = (String) dataSnapshot.child("by").getValue();
+                bidphone = (String) dataSnapshot.child("Phone").getValue();
 
+                phone.setText("Bidder Phone Number : " + bidphone);
+                phone.setVisibility(View.GONE);
                 viewBookTitle.setText(title);
                 viewBookAuthor.setText("Author : " + author);
                 viewBookRelease.setText("Release Date : " + release);
@@ -109,6 +113,7 @@ public class ViewBookBuy extends AppCompatActivity {
                     addToCart.setVisibility(View.GONE);
                     note.setVisibility(View.GONE);
                     reversebidd.setVisibility(View.GONE);
+                    phone.setVisibility(View.VISIBLE);
 
                 }
                 else {
@@ -185,5 +190,6 @@ public class ViewBookBuy extends AppCompatActivity {
         viewBookpricebuyer = (TextView)findViewById(R.id.bookpricebuyer);
         reversebidd = (EditText)findViewById(R.id.et_reversebid);
         bidby = (TextView)findViewById(R.id.tv_requestby);
+        phone = (TextView) findViewById(R.id.tv_phonebuy);
     }
 }

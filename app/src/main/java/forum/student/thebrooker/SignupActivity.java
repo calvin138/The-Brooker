@@ -27,8 +27,9 @@ public class SignupActivity extends AppCompatActivity {
     private EditText FirstName, LastName;
     private EditText Email;
     private EditText Password;
+    private EditText PhoneNum;
 
-    String firstName, lastName, email, password;
+    String firstName, lastName, email, password, phoneNumber;
 
     private DatabaseReference userref;
     private FirebaseAuth firebaseAuth;
@@ -72,6 +73,7 @@ public class SignupActivity extends AppCompatActivity {
         LastName = (EditText) findViewById(R.id.et_LastName);
         Email = (EditText) findViewById(R.id.et_Email);
         Password = (EditText) findViewById(R.id.et_Password);
+        PhoneNum = (EditText) findViewById(R.id.et_num);
     }
 
     public Boolean validate(){
@@ -82,6 +84,7 @@ public class SignupActivity extends AppCompatActivity {
         email = Email.getText().toString();
         password = Password.getText().toString();
         lastName = LastName.getText().toString();
+        phoneNumber = PhoneNum.getText().toString();
 
         if(firstName.isEmpty() || email.isEmpty() || password.isEmpty() || lastName.isEmpty()){
             Toast.makeText(this, "Please fill in all the detail", Toast.LENGTH_SHORT).show();
@@ -99,6 +102,7 @@ public class SignupActivity extends AppCompatActivity {
             hashMap.put("FirstName", firstName);
             hashMap.put("LastName", lastName);
             hashMap.put("UserId", firebaseAuth.getCurrentUser().getUid());
+            hashMap.put("Phone", phoneNumber);
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference myref = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getCurrentUser().getUid());
